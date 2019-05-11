@@ -5,6 +5,10 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'en'
+    resiliency_config:
+        open: [0, 0.0, 100]
+        half_open: [0, 0.2, 0.0]
+        closed: [2, 0.2, 0.0]
 
 services:
     # default configuration for services in *this* file
@@ -18,6 +22,10 @@ services:
         resource: '../src/*'
         exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
 
+    # import classes in Resiliency package
+    Resiliency\:
+        resource: '../vendor/love-oss/resiliency/src/*'
+
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
     App\Controller\:
@@ -26,3 +34,24 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    Resiliency\SimpleCircuitBreakerFactory: ~
+
+    Resiliency\Contracts\CircuitBreaker:
+        factory: 'Resiliency\SimpleCircuitBreakerFactory:create'
+        arguments: ['%resiliency_config%']
+
+    Resiliency\Contracts\System:
+        factory: 'App\Resiliency\System\SystemFactory:createSystem'
+        arguments: ['%resiliency_config%']
+
+    Psr\SimpleCache\CacheInterface $symfonyCache: '@cache.adapter.filesystem'
+    Resiliency\Contracts\Storage: '@Resiliency\Storages\SymfonyCache'
+
+    Resiliency\Contracts\CircuitBreaker $symfonyCircuitBreaker: '@Resiliency\SymfonyCircuitBreaker'
+
+    App\Resiliency\DataCollector\ResiliencyCollector:
+        tags:
+            - name:     data_collector
+              template: 'data_collector/template.html.twig'
+              id:       'resiliency.collector'
+        public: false

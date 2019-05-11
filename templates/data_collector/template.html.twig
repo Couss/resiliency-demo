@@ -1,0 +1,53 @@
+{% extends '@WebProfiler/Profiler/layout.html.twig' %}
+
+{% block toolbar %}
+    {% set icon %}
+        {# this is the content displayed as a panel in the toolbar #}
+        {{ include('data_collector/resiliency.svg') }}
+        <span class="sf-toolbar-value">Resiliency</span>
+    {% endset %}
+
+    {% set text %}
+        {# this is the content displayed when hovering the mouse over
+           the toolbar panel #}
+        <div class="sf-toolbar-info-piece">
+            <b>Services called</b>
+            <span>{{ collector.report|length }}</span>
+        </div>
+    {% endset %}
+
+    {{ include('@WebProfiler/Profiler/toolbar_item.html.twig') }}
+{% endblock %}
+
+{% block menu %}
+    {# This left-hand menu appears when using the full-screen profiler. #}
+    <span class="label">
+        <span class="icon">
+            {{ include('data_collector/resiliency.svg') }}
+        </span>
+        <strong>Resiliency</strong>
+    </span>
+{% endblock %}
+
+{% block panel %}
+    {# Optional, for showing the most details. #}
+    <h2>Service calls</h2>
+
+    {% for uri, serviceCalls in collector.report %}
+        <h3><a href="{{ uri }}" target="_blank">{{ uri }}</a></h3>
+        {% for serviceCall in serviceCalls %}
+            <table>
+                <tr>
+                    <th>State</th><th>Parameters</th><th>Datetime</th>
+                </tr>
+                <tr>
+                    <td>{{ serviceCall.state }}</td>
+                    <td>{{ dump(serviceCall.parameters) }}</td>
+                    <td>{{ serviceCall.datetime|date('d/m/Y h:i:s') }}</td>
+                </tr>
+            </table>
+        {% endfor %}
+    {% else %}
+        <p>No service calls for this request.</p>
+    {% endfor %}
+{% endblock %}
