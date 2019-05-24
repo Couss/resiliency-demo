@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e1165cbd34bae1c60aef66fae6a300c8",
+    "content-hash": "b1e260dc6d353455ab9381a8f0f7b408",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -384,16 +384,16 @@
         },
         {
             "name": "doctrine/doctrine-bundle",
-            "version": "1.11.0",
+            "version": "1.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineBundle.git",
-                "reference": "6e15d2d9a8f90c0f9b5664b0db92686ff14fcd7d"
+                "reference": "09a38417339dc93849d051b914aae3947eb231a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/6e15d2d9a8f90c0f9b5664b0db92686ff14fcd7d",
-                "reference": "6e15d2d9a8f90c0f9b5664b0db92686ff14fcd7d",
+                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/09a38417339dc93849d051b914aae3947eb231a7",
+                "reference": "09a38417339dc93849d051b914aae3947eb231a7",
                 "shasum": ""
             },
             "require": {
@@ -469,7 +469,7 @@
                 "orm",
                 "persistence"
             ],
-            "time": "2019-05-10T13:27:28+00:00"
+            "time": "2019-05-13T14:30:38+00:00"
         },
         {
             "name": "doctrine/doctrine-cache-bundle",
@@ -1201,16 +1201,16 @@
         },
         {
             "name": "egulias/email-validator",
-            "version": "2.1.7",
+            "version": "2.1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/egulias/EmailValidator.git",
-                "reference": "709f21f92707308cdf8f9bcfa1af4cb26586521e"
+                "reference": "c26463ff9241f27907112fbcd0c86fa670cfef98"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/709f21f92707308cdf8f9bcfa1af4cb26586521e",
-                "reference": "709f21f92707308cdf8f9bcfa1af4cb26586521e",
+                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/c26463ff9241f27907112fbcd0c86fa670cfef98",
+                "reference": "c26463ff9241f27907112fbcd0c86fa670cfef98",
                 "shasum": ""
             },
             "require": {
@@ -1254,7 +1254,7 @@
                 "validation",
                 "validator"
             ],
-            "time": "2018-12-04T22:38:24+00:00"
+            "time": "2019-05-16T22:02:54+00:00"
         },
         {
             "name": "fig/link-util",
@@ -1545,19 +1545,20 @@
         },
         {
             "name": "love-oss/resiliency",
-            "version": "0.2.1",
+            "version": "0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/loveOSS/resiliency.git",
-                "reference": "1285af0516bd4da0c68bd43bf99dfb7dbd2011d6"
+                "reference": "543d886977333d6e01b6decfdb0eb6cac0880c98"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/loveOSS/resiliency/zipball/1285af0516bd4da0c68bd43bf99dfb7dbd2011d6",
-                "reference": "1285af0516bd4da0c68bd43bf99dfb7dbd2011d6",
+                "url": "https://api.github.com/repos/loveOSS/resiliency/zipball/543d886977333d6e01b6decfdb0eb6cac0880c98",
+                "reference": "543d886977333d6e01b6decfdb0eb6cac0880c98",
                 "shasum": ""
             },
             "require": {
+                "ext-json": "*",
                 "php": "^7.2"
             },
             "require-dev": {
@@ -1565,6 +1566,7 @@
                 "friendsofphp/php-cs-fixer": "^2.12",
                 "guzzlehttp/guzzle": "^6.3",
                 "jakub-onderka/php-parallel-lint": "^1.0",
+                "mikey179/vfsstream": "^1.6",
                 "phpstan/phpstan": "^0.11.5",
                 "phpstan/phpstan-phpunit": "^0.11.0",
                 "phpunit/phpunit": "^8.0",
@@ -1599,7 +1601,7 @@
                 }
             ],
             "description": "A circuit breaker implementation for PHP 7+",
-            "time": "2019-05-11T09:12:10+00:00"
+            "time": "2019-05-24T19:10:49+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -5561,16 +5563,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v2.9.0",
+            "version": "v2.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "82a1c055c8ed4c4705023bfd0405f3c74db6e3ae"
+                "reference": "5240e21982885b76629552d83b4ebb6d41ccde6b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/82a1c055c8ed4c4705023bfd0405f3c74db6e3ae",
-                "reference": "82a1c055c8ed4c4705023bfd0405f3c74db6e3ae",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/5240e21982885b76629552d83b4ebb6d41ccde6b",
+                "reference": "5240e21982885b76629552d83b4ebb6d41ccde6b",
                 "shasum": ""
             },
             "require": {
@@ -5586,7 +5588,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.9-dev"
+                    "dev-master": "2.10-dev"
                 }
             },
             "autoload": {
@@ -5624,7 +5626,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2019-04-28T06:57:38+00:00"
+            "time": "2019-05-14T12:03:52+00:00"
         },
         {
             "name": "webmozart/assert",

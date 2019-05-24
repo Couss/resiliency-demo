@@ -22,42 +22,22 @@ class ResiliencySubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            'resiliency.'.strtolower(Transitions::INITIATING_TRANSITION) => 'handleInitiation',
-            'resiliency.'.strtolower(Transitions::OPENING_TRANSITION) => 'handleOpening',
-            'resiliency.'.strtolower(Transitions::CHECKING_AVAILABILITY_TRANSITION) => 'handleAvailabilityChecking',
-            'resiliency.'.strtolower(Transitions::REOPENING_TRANSITION) => 'handleReopening',
-            'resiliency.'.strtolower(Transitions::CLOSING_TRANSITION) => 'handleClosing',
-            'resiliency.'.strtolower(Transitions::TRIAL_TRANSITION) => 'handleTrialing',
+            'resiliency.'.strtolower(Transitions::INITIATING_TRANSITION) => 'monitorEvent',
+            'resiliency.'.strtolower(Transitions::OPENING_TRANSITION) => 'monitorEvent',
+            'resiliency.'.strtolower(Transitions::CHECKING_AVAILABILITY_TRANSITION) => 'monitorEvent',
+            'resiliency.'.strtolower(Transitions::REOPENING_TRANSITION) => 'monitorEvent',
+            'resiliency.'.strtolower(Transitions::CLOSING_TRANSITION) => 'monitorEvent',
+            'resiliency.'.strtolower(Transitions::TRIAL_TRANSITION) => 'monitorEvent',
         ];
     }
 
-    public function handleInitiation(TransitionEvent $event)
+    public function monitorEvent(TransitionEvent $event)
     {
-        $this->monitor->add($event->getService(), $event->getEvent(), $event->getParameters());
-    }
-
-    public function handleOpening(TransitionEvent $event)
-    {
-        $this->monitor->add($event->getService(), $event->getEvent(), $event->getParameters());
-    }
-
-    public function handleAvailabilityChecking(TransitionEvent $event)
-    {
-        $this->monitor->add($event->getService(), $event->getEvent(), $event->getParameters());
-    }
-
-    public function handleReopening(TransitionEvent $event)
-    {
-        $this->monitor->add($event->getService(), $event->getEvent(), $event->getParameters());
-    }
-
-    public function handleClosing(TransitionEvent $event)
-    {
-        $this->monitor->add($event->getService(), $event->getEvent(), $event->getParameters());
-    }
-
-    public function handleTrialing(TransitionEvent $event)
-    {
-        $this->monitor->add($event->getService(), $event->getEvent(), $event->getParameters());
+        $this->monitor->add(
+            $event->getService(),
+            $event->getEvent(),
+            $event->getParameters(),
+            $event->getCircuitBreaker()
+        );
     }
 }

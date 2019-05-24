@@ -6,9 +6,10 @@
 parameters:
     locale: 'en'
     resiliency_config:
-        open: [0, 0.0, 100]
-        half_open: [0, 0.2, 0.0]
-        closed: [2, 0.2, 0.0]
+        timeout: 0.2
+        stripped_timeout: 0.2
+        failures: 2
+        threshold: 100
 
 services:
     # default configuration for services in *this* file
@@ -46,8 +47,9 @@ services:
 
     Psr\SimpleCache\CacheInterface $symfonyCache: '@cache.adapter.filesystem'
     Resiliency\Contracts\Storage: '@Resiliency\Storages\SymfonyCache'
+    Resiliency\Contracts\TransitionDispatcher: '@Resiliency\TransitionDispatchers\SymfonyDispatcher'
 
-    Resiliency\Contracts\CircuitBreaker $symfonyCircuitBreaker: '@Resiliency\SymfonyCircuitBreaker'
+    Resiliency\Contracts\CircuitBreaker $symfonyCircuitBreaker: '@Resiliency\MainCircuitBreaker'
 
     App\Resiliency\DataCollector\ResiliencyCollector:
         tags:

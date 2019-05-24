@@ -11,8 +11,30 @@
         {# this is the content displayed when hovering the mouse over
            the toolbar panel #}
         <div class="sf-toolbar-info-piece">
-            <b>Services called</b>
-            <span>{{ collector.report|length }}</span>
+            <table class="sf-toolbar-ajax-requests">
+                <tr>
+                    <td><b>Services called</b></td>
+                    <td>{{ collector.report|length }}</td>
+                </tr>
+                <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>State</th>
+                    </tr>
+                </thead>
+                <tbody class="sf-toolbar-ajax-request-list">
+                    {% for uri, serviceCalls in collector.report %}
+                    {% set lastState = serviceCalls[loop.last].state %}
+                        <tr>
+                            <td>{{ uri }}</td>
+                            <td>{{ lastState }}</td>
+                        </tr>
+                    {% else %}
+                        <tr><td colspan="2">No services transitions dispatched.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
         </div>
     {% endset %}
 
@@ -38,9 +60,10 @@
         {% for serviceCall in serviceCalls %}
             <table>
                 <tr>
-                    <th>State</th><th>Parameters</th><th>Datetime</th>
+                    <th>Transition</th><th>State</th><th>Parameters</th><th>Datetime</th>
                 </tr>
                 <tr>
+                    <td>{{ serviceCall.transition }}</td>
                     <td>{{ serviceCall.state }}</td>
                     <td>{{ dump(serviceCall.parameters) }}</td>
                     <td>{{ serviceCall.datetime|date('d/m/Y h:i:s') }}</td>
