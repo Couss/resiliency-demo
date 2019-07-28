@@ -11,13 +11,6 @@
 <div class="example-wrapper">
     <h1>Resilient Symfony 4 application</h1>
 
-    <h2>Using a Simple Circuit Breaker</h2>
-
-    <span>(no events, no data collector)</span>
-    <pre style="border: 1px solid lightslategrey;">
-        {{ responseFromSimpleCircuitBreaker }}
-    </pre>
-
     <h2>Using the Symfony adapter of the library</h2>
 
     <ul>
@@ -26,7 +19,7 @@
         <li>Information available in the Profiler using a Data Collector ✓</li>
     </ul>
     <pre style="border: 1px solid lightslategrey;">
-        {{ responseFromSymfonyCircuitBreaker }}
+        {{ responseFromCircuitBreaker }}
     </pre>
 
     <p>

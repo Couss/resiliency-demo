@@ -3,6 +3,12 @@
 namespace App\EventSubscriber;
 
 use App\Resiliency\Monitoring\Monitor;
+use Resiliency\Events\AvailabilityChecked;
+use Resiliency\Events\Initiated;
+use Resiliency\Events\Closed;
+use Resiliency\Events\Opened;
+use Resiliency\Events\ReOpened;
+use Resiliency\Events\Tried;
 use Resiliency\Transitions;
 use Resiliency\Events\TransitionEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -22,12 +28,12 @@ class ResiliencySubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            'resiliency.'.strtolower(Transitions::INITIATING_TRANSITION) => 'monitorEvent',
-            'resiliency.'.strtolower(Transitions::OPENING_TRANSITION) => 'monitorEvent',
-            'resiliency.'.strtolower(Transitions::CHECKING_AVAILABILITY_TRANSITION) => 'monitorEvent',
-            'resiliency.'.strtolower(Transitions::REOPENING_TRANSITION) => 'monitorEvent',
-            'resiliency.'.strtolower(Transitions::CLOSING_TRANSITION) => 'monitorEvent',
-            'resiliency.'.strtolower(Transitions::TRIAL_TRANSITION) => 'monitorEvent',
+            Initiated::class => 'monitorEvent',
+            Opened::class => 'monitorEvent',
+            AvailabilityChecked::class => 'monitorEvent',
+            ReOpened::class => 'monitorEvent',
+            Closed::class => 'monitorEvent',
+            Tried::class => 'monitorEvent',
         ];
     }
 
@@ -35,9 +41,8 @@ class ResiliencySubscriber implements EventSubscriberInterface
     {
         $this->monitor->add(
             $event->getService(),
-            $event->getEvent(),
-            $event->getParameters(),
-            $event->getCircuitBreaker()
+            $event->getCircuitBreaker(),
+            get_class($event)
         );
     }
 }

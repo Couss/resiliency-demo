@@ -6,10 +6,10 @@
 parameters:
     locale: 'en'
     resiliency_config:
-        timeout: 0.2
-        stripped_timeout: 0.2
+        timeout: 3
+        stripped_timeout: 2
         failures: 2
-        threshold: 100
+        threshold: 1000
 
 services:
     # default configuration for services in *this* file
@@ -33,23 +33,14 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
-    Resiliency\SimpleCircuitBreakerFactory: ~
-
-    Resiliency\Contracts\CircuitBreaker:
-        factory: 'Resiliency\SimpleCircuitBreakerFactory:create'
-        arguments: ['%resiliency_config%']
-
+    #Resiliency\Contracts\CircuitBreaker: 'Resiliency\MainCircuitBreaker'
+    Psr\EventDispatcher\EventDispatcherInterface: '@event_dispatcher'
     Resiliency\Contracts\System:
         factory: 'App\Resiliency\System\SystemFactory:createSystem'
-        arguments: ['%resiliency_config%']
+        arguments: ['%resiliency_config%', '@Resiliency\Clients\GuzzleClient']
 
     Psr\SimpleCache\CacheInterface $symfonyCache: '@cache.adapter.filesystem'
     Resiliency\Contracts\Storage: '@Resiliency\Storages\SymfonyCache'
-    Resiliency\Contracts\TransitionDispatcher: '@Resiliency\TransitionDispatchers\SymfonyDispatcher'
-
-    Resiliency\Contracts\CircuitBreaker $symfonyCircuitBreaker: '@Resiliency\MainCircuitBreaker'
 
     App\Resiliency\DataCollector\ResiliencyCollector:
         tags:

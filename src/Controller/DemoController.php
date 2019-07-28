@@ -9,19 +9,14 @@ use Symfony\Component\Routing\Annotation\Route;
 class DemoController extends AbstractController
 {
     const COMMENTS_SERVICE = 'https://my-json-server.typicode.com/typicode/demo/comments';
-    const POSTS_SERVICE = 'https://my-json-server.typicode.com/typicode/demo/comments';
 
     /**
      * @Route("/", name="home")
      *
-     * @param CircuitBreaker $simpleCircuitBreaker
-     * @param CircuitBreaker $symfonyCircuitBreaker
+     * @param CircuitBreaker $circuitBreaker
      */
-    public function index(
-        CircuitBreaker $simpleCircuitBreaker,
-        CircuitBreaker $symfonyCircuitBreaker
-    ) {
-        $responseFromSimpleCircuitBreaker = $simpleCircuitBreaker->call(
+    public function index(CircuitBreaker $circuitBreaker) {
+        $responseFromCircuitBreaker = $circuitBreaker->call(
             self::COMMENTS_SERVICE,
             function () {
                 return  json_encode([
@@ -33,36 +28,19 @@ class DemoController extends AbstractController
             ]
         );
 
-        $responseFromSymfonyCircuitBreaker = $symfonyCircuitBreaker->call(
-            self::POSTS_SERVICE,
-            function () {
-                return  json_encode([
-                    ['id' => 1, 'title' => 'Response from callback',]
-                ]);
-            },
-            [
-                'foo' => 'bar'
-            ]
-        );
-
         return $this->render('demo/index.html.twig', [
-            'responseFromSimpleCircuitBreaker' => $responseFromSimpleCircuitBreaker,
-            'responseFromSymfonyCircuitBreaker' => $responseFromSymfonyCircuitBreaker,
+            'responseFromCircuitBreaker' => $responseFromCircuitBreaker,
         ]);
     }
 
     /**
      * @Route("/isolate", name="isolation")
      *
-     * @param CircuitBreaker $simpleCircuitBreaker
-     * @param CircuitBreaker $symfonyCircuitBreaker
+     * @param CircuitBreaker $circuitBreaker
      */
-    public function isolate(
-        CircuitBreaker $simpleCircuitBreaker,
-        CircuitBreaker $symfonyCircuitBreaker
-    ) {
-        $simpleCircuitBreaker->isolate(self::COMMENTS_SERVICE);
-        $symfonyCircuitBreaker->isolate(self::POSTS_SERVICE);
+    public function isolate(CircuitBreaker $circuitBreaker)
+    {
+        $circuitBreaker->isolate(self::COMMENTS_SERVICE);
 
         $this->redirectToRoute('home');
     }
@@ -70,16 +48,11 @@ class DemoController extends AbstractController
     /**
      * @Route("/reset", name="reset")
      *
-     * @param CircuitBreaker $simpleCircuitBreaker
-     * @param CircuitBreaker $symfonyCircuitBreaker
+     * @param CircuitBreaker $circuitBreaker
      */
-    public function reset(
-        CircuitBreaker $simpleCircuitBreaker,
-        CircuitBreaker $symfonyCircuitBreaker
-    ) {
-        $simpleCircuitBreaker->reset(self::COMMENTS_SERVICE);
-        $symfonyCircuitBreaker->reset(self::POSTS_SERVICE);
-
+    public function reset(CircuitBreaker $circuitBreaker)
+    {
+        $circuitBreaker->reset(self::COMMENTS_SERVICE);
         $this->redirectToRoute('home');
     }
 }

@@ -24,10 +24,10 @@
                 </thead>
                 <tbody class="sf-toolbar-ajax-request-list">
                     {% for uri, serviceCalls in collector.report %}
-                    {% set lastState = serviceCalls[loop.last].state %}
+                        {% set last = serviceCalls|length - 1 %}
                         <tr>
                             <td>{{ uri }}</td>
-                            <td>{{ lastState }}</td>
+                            <td>{{ serviceCalls[last].state }}</td>
                         </tr>
                     {% else %}
                         <tr><td colspan="2">No services transitions dispatched.</td></tr>
@@ -65,7 +65,7 @@
                 <tr>
                     <td>{{ serviceCall.transition }}</td>
                     <td>{{ serviceCall.state }}</td>
-                    <td>{{ dump(serviceCall.parameters) }}</td>
+                    <td>{{ profiler_dump(serviceCall.parameters) }}</td>
                     <td>{{ serviceCall.datetime|date('d/m/Y h:i:s') }}</td>
                 </tr>
             </table>

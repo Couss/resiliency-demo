@@ -19,12 +19,7 @@ final class Report
 
         /** @var ServiceCall $serviceCall */
         foreach ($this->serviceCalls as $serviceCall) {
-            $report[$serviceCall->getUri()][] = [
-                'transition' => $serviceCall->getTransition(),
-                'parameters' => $serviceCall->getParameters(),
-                'state' => $serviceCall->getState(),
-                'datetime' => $serviceCall->getDatetime(),
-            ];
+            $report[$serviceCall->getUri()][] = $serviceCall->toArray();
         }
 
         return $report;

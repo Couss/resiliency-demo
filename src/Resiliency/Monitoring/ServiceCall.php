@@ -3,6 +3,7 @@
 namespace App\Resiliency\Monitoring;
 
 use Resiliency\Contracts\CircuitBreaker;
+use Resiliency\Contracts\Service;
 use DateTime;
 
 final class ServiceCall
@@ -14,14 +15,13 @@ final class ServiceCall
     private $circuitBreaker;
 
     public function __construct(
-        string $uri,
-        string $transition,
-        array $parameters,
-        CircuitBreaker $circuitBreaker
+        Service $service,
+        CircuitBreaker $circuitBreaker,
+        string $transition
     ) {
-        $this->uri = $uri;
+        $this->uri = $service->getURI();
         $this->transition = $transition;
-        $this->parameters = $parameters;
+        $this->parameters = $service->getParameters();
         $this->circuitBreaker = $circuitBreaker;
         $this->datetime = new DateTime();
     }
@@ -43,11 +43,22 @@ final class ServiceCall
 
     public function getState(): string
     {
-        return $this->circuitBreaker->getState();
+        return $this->circuitBreaker->getState()->getState();
     }
 
     public function getDatetime() : DateTime
     {
         return $this->datetime;
+    }
+
+    public function toArray() : array
+    {
+        return [
+            'uri' => $this->getUri(),
+            'transition' => $this->getTransition(),
+            'parameters' => $this->getParameters(),
+            'state' => $this->getState(),
+            'datetime' => $this->getDatetime(),
+        ];
     }
 }

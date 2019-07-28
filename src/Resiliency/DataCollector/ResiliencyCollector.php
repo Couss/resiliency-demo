@@ -22,7 +22,15 @@ final class ResiliencyCollector extends DataCollector
      */
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
-        $this->data = $this->monitor->getReport();
+        $report = $this->monitor->getReport();
+
+        foreach($report as $uri => &$serviceCalls) {
+            foreach($serviceCalls as $index => $serviceCall) {
+                $serviceCalls[$index]['parameters'] = $this->cloneVar($serviceCall['parameters']);
+            }
+        }
+
+        $this->data = $report;
     }
 
     /**

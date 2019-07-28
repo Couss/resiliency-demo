@@ -3,14 +3,15 @@
 namespace App\Resiliency\Monitoring;
 
 use Resiliency\Contracts\CircuitBreaker;
+use Resiliency\Contracts\Service;
 
 final class Monitor
 {
     private $servicesCalls = [];
 
-    public function add(string $service, string $eventName, array $serviceParameters, CircuitBreaker $circuitBreaker): void
+    public function add(Service $service, CircuitBreaker $circuitBreaker, string $transition): void
     {
-        $serviceCall = new ServiceCall($service, $eventName, $serviceParameters, $circuitBreaker);
+        $serviceCall = new ServiceCall($service, $circuitBreaker, $transition);
 
         $this->servicesCalls[] = $serviceCall;
     }
