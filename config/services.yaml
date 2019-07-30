@@ -33,10 +33,9 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
-    #Resiliency\Contracts\CircuitBreaker: 'Resiliency\MainCircuitBreaker'
     Psr\EventDispatcher\EventDispatcherInterface: '@event_dispatcher'
     Resiliency\Contracts\System:
-        factory: 'App\Resiliency\System\SystemFactory:createSystem'
+        factory: 'Resiliency\Systems\MainSystem::createFromArray'
         arguments: ['%resiliency_config%', '@Resiliency\Clients\GuzzleClient']
 
     Psr\SimpleCache\CacheInterface $symfonyCache: '@cache.adapter.filesystem'
